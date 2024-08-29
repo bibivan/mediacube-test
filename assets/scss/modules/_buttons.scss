@@ -1,0 +1,158 @@
+.btn {
+  @include desktop {
+    width: 426px;
+    height: 80px;
+    font-size: 2rem;
+    border-radius: $border-radius-l;
+  }
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 250px;
+  height: 56px;
+
+  font-family: $font-base;
+  font-size: 1.4rem;
+  font-weight: 600;
+  line-height: 1.3em;
+  color: $color-headline;
+  text-align: center;
+  letter-spacing: -0.01em;
+
+  background-color: $color-bg-btn;
+  border-radius: $border-radius-l;
+
+  transition:
+    background-color 0.2s ease-in-out,
+    color 0.2s ease-in-out;
+
+  &_easynutrition {
+    &:hover {
+      @include hover {
+        color: $color-easynutrition;
+        background-color: $color-easynutrition-light;
+      }
+    }
+  }
+
+  &_easyfit {
+    &:hover {
+      @include hover {
+        color: $color-easyfit;
+        background-color: $color-easyfit-light;
+      }
+    }
+  }
+
+  &_easynutrition_painted {
+    color: $color-text-light;
+    background-color: $color-easynutrition;
+
+    &:hover {
+      @include hover {
+        background-color: $color-easynutrition-dark;
+      }
+    }
+  }
+
+  &_easyfit_painted {
+    color: $color-text-light;
+    background-color: $color-easyfit;
+
+    &:hover {
+      @include hover {
+        background-color: $color-easyfit-dark;
+      }
+    }
+  }
+
+  &_disabled,
+  &:disabled {
+    color: $color-text;
+    background-color: $color-disable;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+
+  &_size_s {
+    width: 250px;
+    height: 60px;
+
+    font-size: 2rem;
+    font-weight: 600;
+    line-height: 1.4em;
+    text-align: center;
+    letter-spacing: -0.01em;
+  }
+
+  &_w_full {
+    width: 100%;
+  }
+}
+
+.btn-round {
+  @include desktop {
+    width: 54px;
+    height: 54px;
+  }
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 30px;
+  height: 30px;
+
+  font-size: 2rem;
+  color: $color-text-light;
+
+  border-radius: 50%;
+
+  &_easynutrition {
+    background-color: $color-easynutrition;
+
+    &:hover {
+      @include hover {
+        background-color: $color-easynutrition-dark;
+      }
+    }
+  }
+
+  &_easyfit {
+    background-color: $color-easyfit;
+  }
+
+  &_danger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: $color-danger;
+
+    svg {
+      @include desktop {
+        width: 19px;
+        height: 19px;
+      }
+
+      width: 11px;
+      height: 11px;
+    }
+
+    &:hover {
+      @include hover {
+        background-color: $color-danger-dark;
+      }
+    }
+  }
+
+  &_disabled,
+  &:disabled {
+    cursor: not-allowed;
+    color: $color-text;
+    background-color: $color-disable;
+  }
+}

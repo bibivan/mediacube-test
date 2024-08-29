@@ -1,0 +1,60 @@
+@use 'sass:color';
+
+/* fonts */
+$font-base: 'NunitoSans', sans-serif;
+$font-accent: 'Druk Wide Cyr', sans-serif;
+$basic-font-size: 10px;
+
+/* color palette */
+$color-easynutrition: #00adbb;
+$color-easynutrition-light: #dffcff;
+$color-easynutrition-dark: #06909b;
+$color-easyfit: #609ad3;
+$color-easyfit-light: #d1e7ff;
+$color-easyfit-dark: #5791ca;
+$color-disable: #f4f4f4;
+$color-danger: #e95353;
+$color-danger-dark: #ca3737;
+$color-danger-light: #fee;
+$color-warning: #fac311;
+
+/* ancillary color variables for this project */
+
+/* semantic color variables for this project */
+$color-bg-html: #fff;
+$color-bg-btn: #fff;
+$color-text: #a3a3a3;
+$color-text-light: #fff;
+$color-headline: #737470;
+$color-headline-seo: $color-headline;
+$color-text-seo: $color-text;
+
+/* block sizes */
+$desktop-header-height: 78px;
+$mobile-header-height: 63px;
+
+/* indents */
+$container-indent: 0 20px;
+$section-indent: 60px 0;
+$section-indent-portable: 20px 0;
+
+/* z-indexes */
+$ui-index-0: 0;
+$ui-index-1: 1; // Для наползабщих элементов в общем потоке
+$ui-index-2: 2; // Для наползабщих элементов в общем потоке
+$ui-index-3: 3; // Для наползабщих элементов в общем потоке
+$ui-index-4: 4; // Для масок
+$ui-index-5: 5; // Для сайдбаров
+$ui-index-6: 6; // Для модалок
+$ui-index-7: 7; // Для перекрытия всего
+
+/* border-radius */
+$border-radius-3xs: 17px;
+$border-radius-xxs: 20px;
+$border-radius-xs: 24px;
+$border-radius-s: 30px;
+$border-radius-l: 40px;
+$border-radius-xl: 50px;
+$border-radius-xxl: 60px;
+$border-radius-3xl: 66px;
+$border-radius-4xl: 350px;

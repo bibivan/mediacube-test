@@ -1,0 +1,63 @@
+.fieldset {
+  display: flex;
+  flex-direction: column;
+
+  &__legend {
+    @include headline-2-mobile;
+
+    @include desktop {
+      margin-bottom: 36px;
+      font-size: 2.4rem;
+    }
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    width: 100%;
+    margin-bottom: 24px;
+
+    svg {
+      @include desktop {
+        width: 18px;
+        height: 9px;
+      }
+
+      display: block;
+      width: 9px;
+      height: 4px;
+      color: $color-headline;
+    }
+  }
+
+  &__subtitle {
+    @include text-bold-2-mobile;
+
+    @include desktop {
+      margin-bottom: 24px;
+      font-size: 2rem;
+    }
+
+    margin-bottom: 12px;
+  }
+
+  &__inputs {
+    @include desktop {
+      gap: 20px;
+    }
+
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  &__radios {
+    @include desktop {
+      gap: 22px;
+    }
+
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+  }
+}

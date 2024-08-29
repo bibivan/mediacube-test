@@ -1,0 +1,290 @@
+.v-simple-select {
+  $theme-color: $color-easynutrition;
+  $theme-color-light: $color-easynutrition-light;
+
+  .multiselect &__caret {
+    cursor: pointer;
+
+    position: absolute;
+    top: calc(50% - 3px);
+    right: 0;
+
+    width: 13px;
+    height: 6px;
+
+    color: $color-headline;
+  }
+
+  .multiselect {
+    $this: multiselect;
+
+    min-height: 28px;
+
+    // теги внутри инпута
+
+    &__tags {
+      display: flex;
+      align-items: center;
+
+      min-height: 28px;
+      padding: 0 23px 0 0;
+
+      color: $color-headline;
+
+      background-color: transparent;
+      border: none;
+      border-radius: 0;
+    }
+
+    &__placeholder,
+    &__single {
+      margin: 0;
+      padding: 0;
+
+      font-size: 2rem;
+      line-height: 1.4em;
+
+      background-color: transparent;
+    }
+
+    &__placeholder {
+      color: $color-headline;
+    }
+
+    // выпадающий список
+    &__content-wrapper {
+      background-color: transparent;
+      border: none;
+      border-radius: 0;
+    }
+
+    &__option {
+      min-height: 22px;
+      padding: 0 23px 0 0;
+
+      font-size: 2rem;
+      line-height: 1.4em;
+      color: $color-headline;
+      text-align: left;
+      vertical-align: middle;
+
+      background-color: transparent;
+      border-radius: 0;
+
+      &--highlight {
+        color: $theme-color;
+        background-color: transparent;
+      }
+
+      &--selected {
+        font-weight: 400;
+        color: $theme-color;
+        background-color: transparent;
+      }
+
+      &--selected.#{$this}__option--highlight {
+        color: $theme-color;
+        background-color: transparent;
+      }
+    }
+
+    &--active {
+      .#{$this}__tags {
+        border-radius: 0;
+      }
+    }
+
+    &--above .#{$this}__content-wrapper {
+      border-top: 0;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+    }
+  }
+}
+
+@mixin multiselect($color-main, $color-additional) {
+  $parent: v-select;
+  $theme-color: $color-main;
+  $theme-color-light: $color-additional;
+
+  .multiselect .#{$parent}__caret {
+    @include desktop {
+      top: calc(50% - 3px);
+      right: 30px;
+      width: 13px;
+      height: 6px;
+    }
+
+    cursor: pointer;
+
+    position: absolute;
+    top: calc(50% - 2px);
+    right: 20px;
+
+    width: 9px;
+    height: 4px;
+
+    color: $color-headline;
+  }
+
+  .multiselect {
+    $this: multiselect;
+
+    @include desktop {
+      min-height: 54px;
+    }
+
+    min-height: 34px;
+
+    // теги внутри инпута
+    &__placeholder {
+      @include desktop {
+        font-size: 1.6rem;
+      }
+
+      @include text-regular-3-mobile;
+
+      margin-bottom: 0;
+      padding: 0;
+      color: $color-headline;
+    }
+
+    &__tags {
+      @include desktop {
+        min-height: 54px;
+        padding: 16px 53px 16px 30px;
+      }
+
+      min-height: 34px;
+      padding: 9px 35px 9px 29px;
+
+      color: $color-headline;
+
+      background-color: $color-disable;
+      border: none;
+      border-radius: $border-radius-s;
+    }
+
+    &__single {
+      @include desktop {
+        font-size: 1.6rem;
+      }
+
+      @include text-regular-3-mobile;
+
+      min-height: 15px;
+      margin: 0;
+      padding: 0;
+
+      color: $color-headline;
+
+      background-color: transparent;
+    }
+
+    // выпадающий список
+    &__content-wrapper {
+      @include desktop {
+        top: calc(100% + 14px);
+      }
+
+      top: calc(100% + 7px);
+      background-color: transparent;
+      border: none;
+      border-radius: 0 0 $border-radius-s $border-radius-s;
+    }
+
+    &__element {
+      @include desktop {
+        padding: 6px 0;
+      }
+
+      padding: 5px 0;
+    }
+
+    &__option {
+      @include desktop {
+        min-height: 22px;
+        padding: 0 40px 0 30px;
+        font-size: 1.6rem;
+      }
+
+      @include text-regular-3-mobile;
+
+      min-height: 15px;
+      padding: 0 20px;
+
+      color: $color-text;
+      vertical-align: middle;
+
+      background-color: transparent;
+      border-radius: $border-radius-s;
+
+      &--highlight {
+        color: $theme-color;
+        background-color: transparent;
+      }
+
+      &--selected {
+        font-weight: 400;
+        color: $theme-color;
+        background-color: transparent;
+      }
+
+      &--selected.#{$this}__option--highlight {
+        color: $theme-color;
+        background-color: transparent;
+      }
+    }
+
+    &--active:not(&--above) {
+      .#{$this}__tags {
+        border-radius: $border-radius-s;
+      }
+    }
+
+    &--above {
+      .#{$this}__content-wrapper {
+        border-top: 0;
+        border-top-left-radius: $border-radius-s;
+        border-top-right-radius: $border-radius-s;
+      }
+    }
+
+    &--above.#{$this}--active {
+      .#{$this}__tags {
+        border-top-left-radius: $border-radius-s;
+        border-top-right-radius: $border-radius-s;
+      }
+    }
+  }
+
+  &.#{$parent}_selected {
+    .multiselect {
+      &__tags {
+        background-color: $theme-color-light;
+      }
+
+      &__single {
+        color: $theme-color;
+      }
+
+      &__placeholder {
+        color: $theme-color;
+      }
+
+      .#{$parent}__caret {
+        color: $theme-color;
+      }
+    }
+  }
+}
+
+.v-select {
+  &_easynutrition {
+    @include multiselect($color-easynutrition, $color-easynutrition-light);
+  }
+
+  &_easyfit {
+    @include multiselect($color-easyfit, $color-easyfit-light);
+  }
+}

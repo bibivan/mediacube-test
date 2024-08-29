@@ -1,0 +1,14 @@
+@use 'sass:color';
+
+input {
+  /* stylelint-disable */
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  &[type='number'] {
+    -moz-appearance: textfield;
+  }
+  /* stylelint-enable */
+}

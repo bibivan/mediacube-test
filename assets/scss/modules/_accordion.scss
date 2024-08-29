@@ -1,0 +1,56 @@
+.accordion {
+  $this: &;
+
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  &__item {
+    display: block;
+  }
+
+  &__head {
+    @include text-bold-2-mobile;
+
+    cursor: pointer;
+    position: relative;
+    display: block;
+    padding-right: 35px;
+
+    &::before,
+    &::after {
+      content: '';
+
+      position: absolute;
+      top: calc(50% - 1px);
+      right: 15px;
+
+      display: inline-block;
+
+      width: 9px;
+      height: 2px;
+
+      background-color: $color-headline;
+      border-radius: 2px;
+
+      transition: transform 0.15s ease-in-out;
+    }
+
+    &::after {
+      transform: rotate(-90deg);
+    }
+  }
+
+  &__body {
+    @include text-regular-3-mobile;
+
+    overflow: hidden;
+    display: block;
+    padding-top: 16px;
+    color: $color-text;
+  }
+
+  &_opened &__head::after {
+    transform: rotate(0deg);
+  }
+}
