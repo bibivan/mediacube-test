@@ -6,6 +6,7 @@ export default defineNuxtConfig({
       link: [{ rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' }]
     }
   },
+  modules: ['@pinia/nuxt'],
   devtools: { enabled: true },
   css: ['~/assets/scss/main.scss'],
   vite: {
@@ -20,8 +21,12 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       baseURL: 'https://gorest.co.in/public/v2/',
-      token: '2da9c8f058ad74edb5f1a6f7dd7f73ef152279a95f791c8aadd0098d3e679f0d'
+      token: '2da9c8f058ad74edb5f1a6f7dd7f73ef152279a95f791c8aadd0098d3e679f0d',
+      userId: '6941284'
     }
+  },
+  pinia: {
+    storesDirs: ['./stores/**']
   },
   typescript: {
     typeCheck: true
