@@ -2,7 +2,6 @@
   box-sizing: border-box;
   backface-visibility: hidden;
   outline: none;
-
   -webkit-tap-highlight-color: rgba(0 0 0 / 0%);
 }
 
@@ -39,136 +38,53 @@ img {
 }
 
 button {
-  cursor: pointer;
   padding: 0;
-  background-color: transparent;
   border: none;
+  background-color: transparent;
+  cursor: pointer;
 }
 
 ul,
 ol {
-  margin: 0;
   padding: 0;
+  margin: 0;
   list-style: none;
 }
 
-body {
-  overflow: auto;
-  display: flex;
-  flex-direction: column;
-
-  margin: 0;
+fieldset {
   padding: 0;
+  border: none;
+  margin: 0;
+}
 
+legend {
+  padding: 0;
+}
+
+body {
+  display: flex;
+  overflow: auto;
+  flex-direction: column;
+  padding: 0;
+  margin: 0;
+  background-color: transparent;
+  color: $color-text;
   font-family: $font-base;
   -webkit-font-smoothing: antialiased;
-  color: $color-text;
-
-  background-color: transparent;
-
-  &::before {
-    @include desktop {
-      height: $desktop-header-height;
-    }
-
-    pointer-events: none;
-    content: '';
-
-    z-index: $ui-index-1;
-
-    width: 100%;
-    height: $mobile-header-height;
-  }
 }
 
 .section {
-  @include desktop {
-    padding: $section-indent;
-  }
-
   width: 100%;
   padding: $section-indent-portable;
 
-  &_pb_0 {
-    padding-bottom: 0;
-  }
-
-  &_desktop_pb_0 {
-    @include desktop {
-      padding-bottom: 0;
-    }
-  }
-
-  &_pt_0 {
-    padding-top: 0;
-  }
-
-  &_desktop_pt_0 {
-    @include desktop {
-      padding-top: 0;
-    }
-  }
-
-  &_overflow_hidden {
-    overflow: hidden;
-  }
-
-  &__headline {
-    @include desktop {
-      margin-bottom: 60px;
-      font-size: 4.2rem;
-    }
-
-    margin-bottom: 20px;
-
-    font-family: $font-accent;
-    font-size: 2rem;
-    font-weight: 700;
-    line-height: 1.4em;
-    color: $color-headline;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-
-    &_align_center {
-      text-align: center;
-    }
+  @include desktop {
+    padding: $section-indent;
   }
 }
 
 .container {
   width: 100%;
   max-width: 1360px;
-  margin: 0 auto;
   padding: $container-indent;
-
-  &_width_full {
-    max-width: none;
-  }
-
-  &_sm {
-    max-width: 1136px;
-  }
-}
-
-.link {
-  @include text-regular-3-mobile;
-
-  @include desktop {
-    @include text-regular-3;
-
-    color: $color-easynutrition;
-  }
-
-  font-family: $font-base;
-  color: $color-easynutrition;
-  text-align: left;
-  text-decoration: none;
-}
-
-fieldset {
-  @include reset-fieldset;
-}
-
-legend {
-  @include reset-legend;
+  margin: 0 auto;
 }

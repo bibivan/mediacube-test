@@ -1,0 +1,46 @@
+<template>
+  <svg
+    viewBox="0 0 16 16"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <g opacity="0.5">
+      <circle
+        cx="4.5"
+        cy="3.5"
+        r="1.5"
+        fill="currentColor"
+      />
+      <circle
+        cx="11.5"
+        cy="13.5"
+        r="1.5"
+        fill="currentColor"
+      />
+      <circle
+        cx="4.5"
+        cy="13.5"
+        r="1.5"
+        fill="currentColor"
+      />
+      <circle
+        cx="11.5"
+        cy="3.5"
+        r="1.5"
+        fill="currentColor"
+      />
+      <circle
+        cx="4.5"
+        cy="8.5"
+        r="1.5"
+        fill="currentColor"
+      />
+      <circle
+        cx="11.5"
+        cy="8.5"
+        r="1.5"
+        fill="currentColor"
+      />
+    </g>
+  </svg>
+</template>

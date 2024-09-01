@@ -13,12 +13,11 @@
   },
   "dependencies": {
     "@pinia/nuxt": "^0.5.1",
-    "@vuelidate/core": "^2.0.3",
-    "@vuelidate/validators": "^2.0.4",
-    "dayjs": "^1.11.11",
     "nuxt": "^3.11.2",
     "vue": "^3.4.21",
-    "vue-router": "^4.3.0"
+    "vue-draggable-next": "^2.2.1",
+    "vue-router": "^4.3.0",
+    "vue3-perfect-scrollbar": "^2.0.0"
   },
   "devDependencies": {
     "@nuxt/eslint-config": "^0.3.10",
@@ -28,7 +27,7 @@
     "prettier": "^3.2.5",
     "sass": "^1.76.0",
     "stylelint": "^16.5.0",
-    "stylelint-config-clean-order": "^5.4.2",
+    "stylelint-config-idiomatic-order": "^10.0.0",
     "stylelint-config-recommended-scss": "^14.0.0",
     "stylelint-config-recommended-vue": "^1.5.0",
     "stylelint-config-standard-scss": "^13.1.0",

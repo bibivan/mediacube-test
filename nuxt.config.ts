@@ -6,7 +6,7 @@ export default defineNuxtConfig({
       link: [{ rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' }]
     }
   },
-  modules: ['@pinia/nuxt'],
+  modules: ['@pinia/nuxt', 'vue3-perfect-scrollbar/nuxt'],
   devtools: { enabled: true },
   css: ['~/assets/scss/main.scss'],
   vite: {

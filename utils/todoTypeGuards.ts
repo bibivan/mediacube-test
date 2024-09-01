@@ -1,4 +1,6 @@
-export const isETodoStatus = (value: unknown): value is ETodoStatus => {
+import { ETodoStatus, type ITodo } from '~/types/modules'
+
+export const isTodoStatus = (value: unknown): value is ETodoStatus => {
   return Object.values(ETodoStatus).includes(value as ETodoStatus)
 }
 
@@ -10,9 +12,13 @@ export const isTodo = (item: unknown): item is ITodo => {
     typeof item.id === 'number' &&
     typeof item.user_id === 'number' &&
     typeof item.title === 'string' &&
-    typeof item.due_on === 'string' &&
-    isETodoStatus(item.status)
+    (typeof item.due_on === 'string' || item.due_on === null) &&
+    isTodoStatus(item.status)
   )
+}
+
+export const isKeyOfITodo = (key: string): key is keyof ITodo => {
+  return key === 'title' || key === 'completed'
 }
 
 export const isTodosArray = (items: unknown): items is ITodo[] => {

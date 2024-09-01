@@ -1,39 +1,28 @@
-<script lang="ts" setup>
-// const config = useRuntimeConfig()
-// const todos = await useCommonFetch(`/users/${config.public.userId}/todos`)
-// import { useTodosStore } from '~/stores/todos'
-
-const { getTodos } = useTodosStore()
-const newTodo = reactive<INewTodoPayload>({
-  title: null,
-  due_on: new Date().toString(),
-  status: ETodoStatus.PENDING
-})
-
-getTodos()
-</script>
+<script lang="ts" setup></script>
 
 <template>
-  <main>
-    <div class="flex">
-      <button @click="getTodos">Some text</button>
-      <NuxtLink to="/other">other</NuxtLink>
-      <form action="/">
-        <input
-          v-model="newTodo"
-          type="text"
-        />
-        <button>Send</button>
-      </form>
-      butt
-    </div>
+  <main class="main">
+    <TodoHolder />
   </main>
+  <NuxtLink
+    class="link"
+    to="/other"
+  >
+    other
+  </NuxtLink>
 </template>
 <style scoped lang="scss">
-.flex {
-  display: flex;
-  gap: 20px;
-  flex-direction: column;
-  align-items: center;
+.main {
+  @include flex-center;
+  padding: 10px;
+  min-height: 100vh;
+  background: $color-bg-html;
+}
+
+.link {
+  position: fixed;
+  left: 50%;
+  top: 35px;
+  transform: translateX(-50%);
 }
 </style>

@@ -1,4 +1,4 @@
-export const useClientFetch = <T>(path: string, options = {}) => {
+export const useClientFetch = async <T>(path: string, options = {}) => {
   const config = useRuntimeConfig()
   const apiFetch = $fetch.create<T>({
     baseURL: config.public.baseURL,
@@ -9,5 +9,5 @@ export const useClientFetch = <T>(path: string, options = {}) => {
       Authorization: `Bearer ${config.public.token}`
     }
   })
-  return apiFetch(path, options)
+  return await apiFetch(path, options)
 }

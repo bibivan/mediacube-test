@@ -17,12 +17,6 @@ $xs-mobile: 320px;
   }
 }
 
-@mixin xxl-desktop {
-  @media (width >= $xl-desktop + 1) {
-    @content;
-  }
-}
-
 @mixin xl-desktop {
   @media (min-width: $xl-desktop) {
     @content;

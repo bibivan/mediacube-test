@@ -12,7 +12,6 @@ defineEmits<{
   change: [Event]
 }>()
 
-const slots = useSlots()
 const modelValue = defineModel<T>()
 </script>
 
@@ -32,8 +31,6 @@ const modelValue = defineModel<T>()
       class="base-checkbox__label"
       :for="id"
     >
-      {{ !label && !slots.label ? value : label }}
-
       <slot name="label" />
     </label>
   </div>
@@ -43,8 +40,6 @@ const modelValue = defineModel<T>()
 @use 'sass:color';
 
 .base-checkbox {
-  $this: &;
-
   position: relative;
 
   &__input {
@@ -59,8 +54,6 @@ const modelValue = defineModel<T>()
       font-size: 2rem;
     }
 
-    @include text-regular-3-mobile;
-
     position: absolute;
     top: 100%;
     left: 26px;
@@ -73,8 +66,6 @@ const modelValue = defineModel<T>()
       font-size: 2rem;
     }
 
-    @include text-regular-3-mobile;
-
     cursor: pointer;
 
     display: flex;
@@ -86,15 +77,6 @@ const modelValue = defineModel<T>()
     transition: color 0.15s ease-in-out;
 
     &::before {
-      @include desktop {
-        width: 30px;
-        height: 30px;
-
-        background: center / 18px no-repeat;
-        border-width: 3px;
-        border-radius: 8px;
-      }
-
       content: '';
 
       display: block;
@@ -107,8 +89,8 @@ const modelValue = defineModel<T>()
       margin-right: 10px;
 
       background: center / 10px no-repeat;
-      border: 1px solid $color-text;
-      border-radius: 4px;
+      border: 1px solid $color-input-border;
+      border-radius: 2px;
 
       transition: border-color 0.15s ease-in-out;
     }
@@ -123,42 +105,40 @@ const modelValue = defineModel<T>()
     }
   }
 
-  &_easynutrition {
-    /* стили для чекбокса, находящегося в фокусе и не находящегося в состоянии checked */
-    #{$this}__input:focus:not(:checked) + #{$this}__label {
-      &::before {
-        border-color: $color-easynutrition;
-      }
-    }
+  /* стили для чекбокса, находящегося в фокусе и не находящегося в состоянии checked */
+  //&__input:focus:not(:checked) + &__label {
+  //  &::before {
+  //    border-color: $color-bg-btn;
+  //  }
+  //}
 
-    /* стили для чекбокса, находящегося в ховере и не находящегося в состоянии checked */
-    #{$this}__input:hover:not(:checked) + #{$this}__label {
-      @include hover {
-        color: $color-easynutrition;
-
-        &::before {
-          border-color: $color-easynutrition;
-        }
-      }
-    }
-
-    /* стили для активного чекбокс (при нажатии на неё) */
-    #{$this}__input:not(:disabled):active + #{$this}__label {
-      color: $color-easynutrition-dark;
+  /* стили для чекбокса, находящегося в ховере и не находящегося в состоянии checked */
+  &__input:hover:not(:checked) + &__label {
+    @include hover {
+      color: $color-bg-btn;
 
       &::before {
-        border-color: $color-easynutrition-dark;
+        border-color: $color-bg-btn;
       }
     }
+  }
 
-    /* стили для радиокнопки, находящегося в состоянии checked */
-    #{$this}__input:checked + #{$this}__label {
-      color: $color-easynutrition;
+  /* стили для активного чекбокс (при нажатии на неё) */
+  &__input:not(:disabled):active + &__label {
+    color: $color-primary-dark;
 
-      &::before {
-        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%2300adbb' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26 2.974 7.25 8 2.193z'/%3e%3c/svg%3e");
-        border-color: $color-easynutrition;
-      }
+    &::before {
+      border-color: $color-primary-dark;
+    }
+  }
+
+  /* стили для радиокнопки, находящегося в состоянии checked */
+  &__input:checked + &__label {
+    background-color: $color-bg-section;
+
+    &::before {
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23fff' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26 2.974 7.25 8 2.193z'/%3e%3c/svg%3e");
+      border-color: $color-bg-btn;
     }
   }
 }

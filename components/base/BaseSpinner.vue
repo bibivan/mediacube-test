@@ -1,18 +1,14 @@
-<script setup lang="ts">
-defineProps<{
-  theme: 'default'
-}>()
-</script>
+<script setup lang="ts"></script>
 
 <template>
-  <div :class="'spinner spinner_' + theme"></div>
+  <span class="spinner" />
 </template>
 
-<style scoped lang="scss">
+<style lang="scss">
 .spinner {
   position: relative;
-  width: 85px;
-  height: 85px;
+  width: 25px;
+  height: 25px;
 
   &::before,
   &::after {
@@ -25,8 +21,8 @@ defineProps<{
 
     display: block;
 
-    width: 50px;
-    height: 50px;
+    width: 80%;
+    height: 80%;
 
     border-radius: 50%;
   }
@@ -36,19 +32,10 @@ defineProps<{
   }
 
   &::after {
-    border: 5px solid;
+    border: 2px solid $color-bg-section;
+
+    border-top-color: transparent;
     animation: 1s linear 0s normal none infinite running rot;
-  }
-
-  &_easynutrition {
-    &::before {
-      border-color: $color-easynutrition-light;
-    }
-
-    &::after {
-      border-color: $color-easynutrition;
-      border-top-color: $color-easynutrition-light;
-    }
   }
 }
 
