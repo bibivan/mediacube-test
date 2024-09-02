@@ -13,7 +13,8 @@
         <h1 class="todo-holder__title">Today I need to</h1>
         <TodoAdd class="todo-holder__new-todo" />
         <TodoList class="todo-holder__list" />
-        <TodoActions />
+        <TodoActions class="todo-holder__actions" />
+        <!--        <TodoProgressInfo class="todo-holder__progress" />-->
       </div>
     </div>
   </section>
