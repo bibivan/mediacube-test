@@ -1,3 +1,5 @@
+import type { TNullable } from '~/types'
+
 export default <T extends Array<K>, K extends Object>(data: T) => {
   return data.map((item: K) => {
     const transformedItem = {} as K

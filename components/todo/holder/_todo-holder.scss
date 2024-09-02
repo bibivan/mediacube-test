@@ -1,24 +1,3 @@
-<script setup lang="ts"></script>
-
-<template>
-  <section class="todo-holder">
-    <div class="todo-holder__container">
-      <div class="todo-holder__content">
-        <img
-          class="todo-holder__img"
-          src="/public/img/Illustration.svg"
-          alt="todo-img"
-        />
-
-        <h1 class="todo-holder__title">Today I need to</h1>
-        <TodoAdd class="todo-holder__new-todo" />
-        <TodoList />
-      </div>
-    </div>
-  </section>
-</template>
-
-<style scoped lang="scss">
 .todo-holder {
   padding: 32px 0;
   border-radius: $border-radius-lg;
@@ -58,5 +37,8 @@
   &__new-todo {
     margin-bottom: 40px;
   }
+
+  &__list {
+    margin-bottom: 32px;
+  }
 }
-</style>

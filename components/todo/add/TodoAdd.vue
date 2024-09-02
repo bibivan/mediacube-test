@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ETodoStatus, type INewTodoPayload, type ITodo } from '~/types/modules'
+import { ERequestStatus, ETodoStatus, type INewTodoPayload, type ITodo } from '~/types'
 
 const { addTodo } = useTodosStore()
 const newTodo = reactive<INewTodoPayload>({
@@ -12,9 +12,11 @@ const isPendingOfTodoAdding = ref<boolean>(false)
 const handleAddTodo = async () => {
   isPendingOfTodoAdding.value = true
 
-  if (newTodo.title) await addTodo(newTodo)
+  if (newTodo.title) {
+    const requestResult = await addTodo(newTodo)
+    if (requestResult === ERequestStatus.SUCCESS) newTodo.title = null
+  }
 
-  newTodo.title = null
   isPendingOfTodoAdding.value = false
 }
 </script>
@@ -22,7 +24,7 @@ const handleAddTodo = async () => {
 <template>
   <form
     class="todo-add"
-    action="/"
+    action="/public"
     @submit.prevent="handleAddTodo"
   >
     <input
@@ -35,7 +37,7 @@ const handleAddTodo = async () => {
       v-show="newTodo.title"
       class="todo-add__btn btn"
     >
-      Send
+      <template v-if="!isPendingOfTodoAdding">Send</template>
       <BaseSpinner
         v-if="isPendingOfTodoAdding"
         class="todo-add__spinner"
@@ -45,22 +47,5 @@ const handleAddTodo = async () => {
 </template>
 
 <style scoped lang="scss">
-.todo-add {
-  display: flex;
-  width: 100%;
-
-  &__input {
-    width: 100%;
-  }
-
-  &__btn {
-    margin-left: 16px;
-  }
-
-  &__spinner {
-    margin-left: 10px;
-    width: 17px;
-    height: 17px;
-  }
-}
+@import 'todo-add';
 </style>

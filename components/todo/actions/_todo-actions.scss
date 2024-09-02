@@ -1,0 +1,52 @@
+.todo-actions {
+  @include flex-center;
+
+  width: 100%;
+
+  &__action {
+    padding: 8px 12px;
+    font-family: $font-base;
+    border-radius: $border-radius-md;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 16px;
+    text-align: left;
+
+    &_hidden {
+      visibility: collapse;
+    }
+
+    &_active {
+      background-color: $color-bg-btn;
+      color: $color-text-light;
+    }
+
+    &_clear {
+      margin-left: auto;
+    }
+
+    &_check {
+      margin-right: auto;
+    }
+  }
+}
+
+.no-todos-message {
+  display: flex;
+  font-family: $font-base;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 16px;
+  text-align: left;
+  color: #8f99a3;
+
+  &::before {
+    content: '';
+    display: block;
+    width: 18px;
+    height: 18px;
+    background-image: url('/public/img/complete.svg');
+    background-size: contain;
+    margin-right: 11px;
+  }
+}

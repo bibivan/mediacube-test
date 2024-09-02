@@ -1,4 +1,4 @@
-import { ETodoStatus, type ITodo } from '~/types/modules'
+import { ETodoStatus, type ITodo } from '~/types'
 
 export const isTodoStatus = (value: unknown): value is ETodoStatus => {
   return Object.values(ETodoStatus).includes(value as ETodoStatus)

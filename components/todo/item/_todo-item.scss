@@ -1,0 +1,98 @@
+.todo-item {
+  @include flex-items-center;
+  width: calc(100% - #{$custom-scrollbar-indent});
+  height: 20px;
+
+  &:not(:last-child) {
+    margin-bottom: 18px;
+  }
+
+  &.loading {
+    cursor: not-allowed;
+
+    &::before {
+      background-color: $color-disable;
+    }
+  }
+
+  &__checkbox {
+    margin-right: 7px;
+  }
+
+  &__title {
+    padding: 0 3px;
+    font-family: $font-base;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 16px;
+    text-align: left;
+  }
+
+  &__input {
+    margin-right: 20px;
+    height: 18px;
+    width: 100%;
+    padding: 0 2px;
+    border-radius: $border-radius-sm;
+  }
+
+  &__actions {
+    margin-left: auto;
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  &__btn {
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+    transition: opacity 0.2s ease-in-out;
+    cursor: pointer;
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    opacity: 0.65;
+
+    &_drag {
+      margin-right: 8px;
+      cursor: grab;
+      opacity: 0;
+      background-image: url('public/img/drag-handler.svg');
+      background-position: center -1px;
+    }
+
+    &_save {
+      background-image: url('public/img/checkmark.svg');
+    }
+
+    &_reset {
+      background-image: url('public/img/cross.svg');
+    }
+
+    &_edit {
+      background-image: url('public/img/pencil.svg');
+    }
+
+    &_delete {
+      cursor: pointer;
+      opacity: 0.7;
+      background-image: url('public/img/trash.svg');
+      background-position: center;
+      background-size: contain;
+      background-repeat: no-repeat;
+    }
+
+    @include hover {
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+
+  @include hover {
+    &:hover &__btn_drag {
+      opacity: 0.5;
+    }
+  }
+}

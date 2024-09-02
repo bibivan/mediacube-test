@@ -1,22 +1,57 @@
-import { computed } from 'vue'
+import { computed, reactive, type WritableComputedRef } from 'vue'
 import { defineStore } from 'pinia'
-import { ETodoStatus } from '~/types/modules'
+import {
+  ERequestStatus,
+  ETodoStatus,
+  type ITodosStoreState,
+  type IUpdatedTodoPayload,
+  type TDefaultStoreState
+} from '~/types'
 import type { ComputedRef } from 'vue'
-import type { ITodo, INewTodoPayload } from '~/types/modules'
+import type { TNullable, ITodo, INewTodoPayload } from '~/types'
 import { isTodo } from '~/utils/todoTypeGuards'
 
 export const useTodosStore = defineStore('todos_store', () => {
   const config = useRuntimeConfig()
-  const todosState = useStoreStateInstance<ITodo[]>()
-
-  const completedTodos: ComputedRef<TNullable<ITodo[]>> = computed(() => {
-    const data = todosState.data?.filter((item: ITodo) => item.status === ETodoStatus.COMPLETED)
-    return data?.length ? data : null
+  const todosState = reactive<ITodosStoreState<ITodo[]>>({
+    data: null,
+    loading: false,
+    shownByStatus: null,
+    error: null
   })
 
-  const pendedTodos: ComputedRef<TNullable<ITodo[]>> = computed(() => {
-    const data = todosState.data?.filter((item: ITodo) => item.status === ETodoStatus.PENDING)
+  const filterByStatus = (status: ETodoStatus) => {
+    const data = todosState.data?.filter((item: ITodo) => item.status === status)
     return data?.length ? data : null
+  }
+
+  const updateTodo = (data: ITodo) => {
+    const todoIndex = todosState.data?.findIndex((item: ITodo) => item.id === data.id)
+    if (todoIndex !== -1 && todoIndex !== undefined && todosState.data) {
+      todosState.data[todoIndex] = data
+    }
+  }
+
+  const shownTodos: WritableComputedRef<TNullable<ITodo[]>> = computed(() => {
+    if (todosState.shownByStatus === ETodoStatus.COMPLETED) {
+      return filterByStatus(ETodoStatus.COMPLETED)
+    }
+
+    if (todosState.shownByStatus === ETodoStatus.PENDING) {
+      return filterByStatus(ETodoStatus.PENDING)
+    }
+
+    return todosState.data
+  })
+
+  const completedTodosCount = computed(() => {
+    const todos = filterByStatus(ETodoStatus.COMPLETED)
+    return todos?.length ? todos.length : 0
+  })
+
+  const uncompletedTodosCount = computed(() => {
+    const todos = filterByStatus(ETodoStatus.PENDING)
+    return todos?.length ? todos.length : 0
   })
 
   const getTodos = async () => {
@@ -35,36 +70,39 @@ export const useTodosStore = defineStore('todos_store', () => {
     todosState.loading = false
   }
 
-  const addTodo = async (payload: INewTodoPayload) => {
+  const addTodo = async (payload: INewTodoPayload): Promise<ERequestStatus> => {
     try {
-      const data = await useClientFetch('/users/6941284/todos', {
+      const data = await useClientFetch(`/users/${config.public.userId}/todos`, {
         method: 'POST',
         body: payload
       })
 
       if (isTodo(data)) todosState.data?.unshift(data)
+      useNuxtApp().$toast('Дело успешно добавлено')
+      return ERequestStatus.SUCCESS
     } catch (e) {
       console.error(e)
+      useNuxtApp().$toast('Произошла ошибка при добавлении дела')
+      return ERequestStatus.FAILED
     }
   }
 
-  const updateTodo = async (payload: ITodo): Promise<void> => {
+  const saveTodo = async (payload: ITodo): Promise<ERequestStatus> => {
     try {
-      const data = await useClientFetch('/todos/' + payload.id, {
+      await useClientFetch('/todos/' + payload.id, {
         method: 'PATCH',
         body: payload
       })
 
-      if (isTodo(data) && todosState.data) {
-        const todoIndex = todosState.data?.findIndex((item: ITodo) => item.id === data.id)
-        if (todoIndex !== -1 && todoIndex !== undefined) todosState.data[todoIndex] = data
-      }
+      return ERequestStatus.SUCCESS
     } catch (e) {
       console.error(e)
+      useNuxtApp().$toast('Произошла ошибка при обновлении дела')
+      return ERequestStatus.FAILED
     }
   }
 
-  const deleteTodo = async (payload: ITodo): Promise<void> => {
+  const deleteTodo = async (payload: ITodo): Promise<ERequestStatus> => {
     try {
       await useClientFetch('/todos/' + payload.id, {
         method: 'DELETE'
@@ -74,18 +112,51 @@ export const useTodosStore = defineStore('todos_store', () => {
         todosState.data?.filter((item: ITodo) => item.id !== payload.id) || null
 
       if (filteredData) todosState.data = filteredData
+      return ERequestStatus.SUCCESS
     } catch (e) {
       console.error(e)
+      useNuxtApp().$toast('Произошла ошибка при удалении дела')
+      return ERequestStatus.FAILED
     }
+  }
+
+  const completedAllTodos = async () => {
+    todosState.loading = true
+    await Promise.all(
+      todosState.data?.map((item: ITodo) => {
+        item.status = ETodoStatus.COMPLETED
+        return saveTodo(item)
+      }) as Iterable<ERequestStatus>
+    )
+    console.log('ehre')
+    todosState.loading = false
+  }
+
+  const deleteCompletedTodos = async () => {
+    todosState.loading = true
+    await Promise.all(
+      todosState.data?.map((item) => {
+        if (item.status === ETodoStatus.COMPLETED) return deleteTodo(item)
+        else return deleteTodo(item)
+      }) as Iterable<ERequestStatus>
+    )
+
+    todosState.data = null
+    todosState.loading = false
   }
 
   return {
     todosState,
-    completedTodos,
-    pendedTodos,
+    shownTodos,
+    completedTodosCount,
+    uncompletedTodosCount,
+    filterByStatus,
+    updateTodo,
     getTodos,
     addTodo,
-    updateTodo,
-    deleteTodo
+    saveTodo,
+    deleteTodo,
+    completedAllTodos,
+    deleteCompletedTodos
   }
 })
