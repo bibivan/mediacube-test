@@ -20,9 +20,8 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      baseURL: 'https://gorest.co.in/public/v2/',
-      token: '2da9c8f058ad74edb5f1a6f7dd7f73ef152279a95f791c8aadd0098d3e679f0d',
-      userId: '6941284'
+      baseURL: 'https://api.todoist.com/sync/v9/',
+      token: 'e2d5cfa579085b15e165f7a33dfebaa313ddd9d8'
     }
   },
   pinia: {

@@ -1,6 +1,6 @@
 type useFetchType = typeof useFetch
 
-export const useCommonFetch: useFetchType = (path, options = {}) => {
+export const useServerFetch: useFetchType = (path, options = {}) => {
   const config = useRuntimeConfig()
 
   // modify options as needed

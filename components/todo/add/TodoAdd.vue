@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ERequestStatus, ETodoStatus, type INewTodoPayload, type ITodo } from '~/types'
+import { ERequestStatus, ETodoStatus, type INewTodoPayload } from '~/types'
 
 const { addTodo } = useTodosStore()
 const newTodo = reactive<INewTodoPayload>({
