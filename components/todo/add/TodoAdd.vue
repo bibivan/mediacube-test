@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { ERequestStatus, ETodoStatus, type INewTodoPayload } from '~/types'
+import { ERequestCommand, ERequestStatus, type IAddRequestArgs } from '~/types'
 
-const { addTodo } = useTodosStore()
-const newTodo = reactive<INewTodoPayload>({
-  title: null,
-  status: ETodoStatus.PENDING
+const { syncTodoWithServ } = useTodosStore()
+const newTodo = reactive<IAddRequestArgs>({
+  content: ''
 })
 
 const isPendingOfTodoAdding = ref<boolean>(false)
@@ -12,9 +11,10 @@ const isPendingOfTodoAdding = ref<boolean>(false)
 const handleAddTodo = async () => {
   isPendingOfTodoAdding.value = true
 
-  if (newTodo.title) {
-    const requestResult = await addTodo(newTodo)
-    if (requestResult === ERequestStatus.SUCCESS) newTodo.title = null
+  if (newTodo.content) {
+    const payload = getTodoPayload(ERequestCommand.ADD, newTodo)
+    const requestResult = await syncTodoWithServ(payload)
+    if (requestResult === ERequestStatus.SUCCESS) newTodo.content = ''
   }
 
   isPendingOfTodoAdding.value = false
@@ -28,13 +28,13 @@ const handleAddTodo = async () => {
     @submit.prevent="handleAddTodo"
   >
     <input
-      v-model="newTodo.title"
+      v-model="newTodo.content"
       class="todo-add__input input"
       placeholder="Add new todo..."
       type="text"
     />
     <button
-      v-show="newTodo.title"
+      v-show="newTodo.content"
       class="todo-add__btn btn"
     >
       <template v-if="!isPendingOfTodoAdding">Send</template>

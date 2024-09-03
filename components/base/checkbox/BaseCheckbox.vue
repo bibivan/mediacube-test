@@ -3,7 +3,6 @@ defineProps<{
   id: string
   theme: string
   disabled: boolean
-  checked?: boolean
 }>()
 
 defineEmits<{

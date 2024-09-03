@@ -1,11 +1,19 @@
 <script setup lang="ts">
-import { ETodoStatus } from '~/types'
+// import { computed } from 'vue'
+
+// const completedTodosCount = computed(() => {
+//   const todos = filterByStatus()
+//   return todos?.length ? todos.length : 0
+// })
+//
+// const uncompletedTodosCount = computed(() => {
+//   const todos = filterByStatus()
+//   return todos?.length ? todos.length : 0
+// })
 
 // const todosStore = useTodosStore()
 // const {
 //   todosState,
-//   completedAllTodos: handleCompletedAllTodos,
-//   deleteCompletedTodos: handleDeleteCompletedTodos
 // } = todosStore
 // const { completedTodosCount, uncompletedTodosCount, shownTodos } = storeToRefs(todosStore)
 //
@@ -14,6 +22,31 @@ import { ETodoStatus } from '~/types'
 //     todosState.shownByStatus = null
 //   }
 // })
+
+// const completedAllTodos = async () => {
+//   todosState.loading = true
+//   await Promise.all(
+//     todosState.data?.map((item: ITodo) => {
+//       item.status = ETodoStatus.COMPLETED
+//       return saveTodo(item)
+//     }) as Iterable<ERequestStatus>
+//   )
+//   console.log('ehre')
+//   todosState.loading = false
+// }
+//
+// const deleteCompletedTodos = async () => {
+//   todosState.loading = true
+//   await Promise.all(
+//     todosState.data?.map((item) => {
+//       if (item.status === ETodoStatus.COMPLETED) return deleteTodo(item)
+//       else return deleteTodo(item)
+//     }) as Iterable<ERequestStatus>
+//   )
+//
+//   todosState.data = null
+//   todosState.loading = false
+// }
 </script>
 
 <template>

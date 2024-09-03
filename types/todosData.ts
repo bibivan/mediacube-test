@@ -1,18 +1,12 @@
 import type { TNullable } from '~/types/common'
 
-export enum ETodoStatus {
-  PENDING = 'pending',
-  COMPLETED = 'completed'
-}
-
 export interface ITodosStoreState<T> {
   data: TNullable<T>
   loading: boolean
-  shownByStatus: TNullable<ETodoStatus>
   error: unknown
 }
 
-export interface ITodo {
+export interface IUncompletedTodo {
   added_at: string
   added_by_uid: string
   assigned_by_uid: TNullable<string>
@@ -43,24 +37,26 @@ export interface ITodo {
   v2_section_id: TNullable<string>
 }
 
-// todo: убрать мусор, если не пригодится
-export interface INewTodoPayload {
-  title: TNullable<string>
-  status: ETodoStatus
+export interface ICompletedTodoRaw {
+  content: string
+  meta_data: TNullable<any>
+  user_id: string
+  task_id: string
+  note_count: number
+  project_id: string
+  section_id: string
+  completed_at: string
+  id: string
 }
 
-export interface IUpdatedTodoPayload {
-  id: number
-  user_id: number
-  title: string
-  due_on: TNullable<string>
-  status: boolean
+export interface ICompletedTodo extends ICompletedTodoRaw {
+  checked: boolean
 }
+
+export type ITodo = ICompletedTodo | IUncompletedTodo
 
 export interface ITodoItemState {
   todoTitle: string
-  todoStatus: boolean
   isEditing: boolean
   isLoading: boolean
-  requestFailed: boolean
 }

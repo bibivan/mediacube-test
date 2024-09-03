@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { VueDraggableNext } from 'vue-draggable-next'
 const todosStore = useTodosStore()
-const { todosState } = todosStore
-const { shownTodos } = storeToRefs(todosStore)
+const { todosState, updateTodo: handleUpdateTodo } = todosStore
+const { uncompletedTodos } = storeToRefs(todosStore)
 
-await todosStore.getTodos()
+await todosStore.getAllTodos()
 </script>
 
 <template>
@@ -15,12 +15,16 @@ await todosStore.getTodos()
     />
     <template v-else>
       <PerfectScrollbar>
-        <VueDraggableNext handle=".drag-handler">
+        <VueDraggableNext
+          v-model="uncompletedTodos as unknown[]"
+          handle=".drag-handler"
+        >
           <TodoItem
-            v-for="todo in shownTodos"
+            v-for="todo in uncompletedTodos"
             :key="todo.id"
             class="todo-list__item"
             :data="todo"
+            @on-update-todo="handleUpdateTodo"
           />
         </VueDraggableNext>
       </PerfectScrollbar>
