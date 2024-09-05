@@ -1,15 +1,13 @@
 <script setup lang="ts">
-// import { computed } from 'vue'
+const { todosState } = useTodosStore()
 
-// const completedTodosCount = computed(() => {
-//   const todos = filterByStatus()
-//   return todos?.length ? todos.length : 0
-// })
-//
-// const uncompletedTodosCount = computed(() => {
-//   const todos = filterByStatus()
-//   return todos?.length ? todos.length : 0
-// })
+const completedTodosCount = computed(() => {
+  return todosState.data.completed?.length ? todosState.data.completed.length : 0
+})
+
+const uncompletedTodosCount = computed(() => {
+  return todosState.data.uncompleted?.length ? todosState.data.uncompleted.length : 0
+})
 
 // const todosStore = useTodosStore()
 // const {

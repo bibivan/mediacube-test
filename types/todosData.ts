@@ -1,7 +1,17 @@
 import type { TNullable } from '~/types/common'
 
-export interface ITodosStoreState<T> {
-  data: TNullable<T>
+export enum EShownTodos {
+  ALL,
+  UNCOMPLETED,
+  COMPLETED
+}
+
+export interface ITodosStoreState {
+  data: {
+    completed: TNullable<ICompletedTodo[]>
+    uncompleted: TNullable<IUncompletedTodo[]>
+  }
+  shownTodos: EShownTodos
   loading: boolean
   error: unknown
 }

@@ -9,62 +9,56 @@ import {
   type ITodosStoreState,
   type IPostResponse,
   type ICompletedTodoRaw,
-  type TNullable
+  type TNullable,
+  type IUncompletedTodo,
+  type ICompletedTodo
 } from '~/types'
+import { isCompletedTodo, isUncompletedTodo } from '~/utils/typegurads/todos'
 
 export const useTodosStore = defineStore('todos_store', () => {
   // Data
-  const todosState = reactive<ITodosStoreState<ITodo[]>>({
-    data: null,
+  const todosState = reactive<ITodosStoreState>({
+    data: {
+      completed: null,
+      uncompleted: null
+    },
+    shownTodos: 0,
     loading: false,
     error: null
   })
 
-  // mutations
-  const filterBy = (key: keyof ITodo, value: boolean | string) => {
-    const data = todosState.data?.filter((item: ITodo) => item[key] === value)
-    return data?.length ? data : null
-  }
-
-  const reorderTodosData = (isCompleted: boolean, value: TNullable<ITodo[]>) => {
-    if (isCompleted) {
-      todosState.data = filterBy('checked', !isCompleted)
-      value?.forEach((item) => {
-        todosState.data?.push(item)
-      })
-    } else {
-      todosState.data = filterBy('checked', isCompleted)
-      value?.forEach((item) => {
-        todosState.data?.unshift(item)
-      })
-    }
-  }
-
-  const updateTodo = (data: ITodo) => {
-    const todoIndex = todosState.data?.findIndex((item: ITodo) => item.id === data.id)
-    if (todoIndex !== -1 && todoIndex !== undefined && todosState.data) {
-      todosState.data[todoIndex] = data
-    }
-  }
-
-  const deleteTodo = (data: ITodo) => {
-    return todosState.data?.filter((item: ITodo) => item.id !== data.id)
-  }
-
   // getters
-  const uncompletedTodos = computed({
-    get: () => filterBy('checked', false),
+  const allTodos = computed<TNullable<ITodo[]>>({
+    get: () => {
+      if (todosState.data.uncompleted && todosState.data.completed)
+        return [...todosState.data.uncompleted, ...todosState.data.completed]
+      else return null
+    },
     set: (value) => {
-      reorderTodosData(false, value)
+      const uncompletedTodos = [] as IUncompletedTodo[]
+      const completedTodos = [] as ICompletedTodo[]
+
+      value?.forEach((todo) => {
+        if (isUncompletedTodo(todo)) uncompletedTodos.push(todo)
+        if (isCompletedTodo(todo)) completedTodos.push(todo)
+      })
+
+      todosState.data.uncompleted = uncompletedTodos
+      todosState.data.completed = completedTodos
     }
   })
 
-  const completedTodos = computed({
-    get: () => filterBy('checked', true),
-    set: (value) => {
-      reorderTodosData(true, value)
+  const updateTodo = (todo: ITodo) => {
+    const todoIndex = allTodos.value?.findIndex((item: ITodo) => item.id === todo.id)
+
+    if (todoIndex !== -1 && todoIndex !== undefined && allTodos.value) {
+      allTodos.value[todoIndex] = todo
     }
-  })
+  }
+
+  const deleteTodo = (todo: ITodo) => {
+    return allTodos.value?.filter((item: ITodo) => item.id !== todo.id)
+  }
 
   // actions
   const getUncompletedTodos = async () => {
@@ -75,9 +69,7 @@ export const useTodosStore = defineStore('todos_store', () => {
         resource_types: '["items"]'
       },
       onResponse({ response }) {
-        todosState.data = todosState.data
-          ? [...response._data.items, ...todosState.data]
-          : response._data.items
+        todosState.data.uncompleted = response._data.items
       },
       onResponseError({ response }) {
         todosState.error = response
@@ -90,14 +82,10 @@ export const useTodosStore = defineStore('todos_store', () => {
     await useServerFetch<Record<'items', ICompletedTodoRaw[]>>('/completed/get_all', {
       method: 'GET',
       onResponse({ response }) {
-        response._data.items.forEach((item: ICompletedTodoRaw) => {
-          if (!todosState.data) todosState.data = []
-
-          todosState.data?.push({
-            ...item,
-            checked: true
-          })
-        })
+        todosState.data.completed = response._data.items.map((item: ICompletedTodoRaw) => ({
+          ...item,
+          checked: true
+        }))
       },
       onResponseError({ response }) {
         todosState.error = response
@@ -129,10 +117,7 @@ export const useTodosStore = defineStore('todos_store', () => {
 
   return {
     todosState,
-    uncompletedTodos,
-    completedTodos,
-    reorderTodosData,
-    filterBy,
+    allTodos,
     updateTodo,
     deleteTodo,
     getAllTodos,
