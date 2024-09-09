@@ -57,7 +57,7 @@ await todosStore.getAllTodos()
           handle=".drag-handler"
         >
           <TodoItem
-            v-for="todo in allTodos"
+            v-for="todo in todosState.data.uncompleted"
             :key="'uncompleted-todos' + todo.id"
             class="todo-list__item"
             :data="todo"
