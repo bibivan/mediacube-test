@@ -2,9 +2,11 @@ import { v4 as uuidv4 } from 'uuid'
 import {
   ERequestCommand,
   ERequestStatus,
+  ETodoStatus,
   type IPostRequestArgs,
   type IPostRequestPayload,
-  type IPostResponse
+  type IPostResponse,
+  type ITodo
 } from '~/types'
 
 export const getTodoPayload = (
@@ -16,6 +18,7 @@ export const getTodoPayload = (
       {
         type: name,
         uuid: uuidv4(),
+        temp_id: ERequestCommand.ADD ? uuidv4() : undefined,
         args
       }
     ]
@@ -38,4 +41,8 @@ export const handleRequestError = (e: unknown, message: string): ERequestStatus.
   console.error(e)
   useNuxtApp().$toast(message)
   return ERequestStatus.FAILED
+}
+
+export const getTodoStatus = (status: ITodo['checked']): ETodoStatus => {
+  return status ? ETodoStatus.COMPLETED : ETodoStatus.UNCOMPLETED
 }

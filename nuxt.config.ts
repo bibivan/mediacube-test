@@ -21,7 +21,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       baseURL: 'https://api.todoist.com/sync/v9/',
-      token: 'e2d5cfa579085b15e165f7a33dfebaa313ddd9d8'
+      token: '0154a2eadbfccff5a288a9a5aeb7aeebca13e635'
     }
   },
   pinia: {

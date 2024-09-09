@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ERequestCommand, ERequestStatus, type IAddRequestArgs } from '~/types'
 
-const { syncTodoWithServ } = useTodosStore()
+const { getUncompletedTodos, syncTodoWithServ } = useTodosStore()
 const newTodo = reactive<IAddRequestArgs>({
   content: ''
 })
@@ -14,7 +14,10 @@ const handleAddTodo = async () => {
   if (newTodo.content) {
     const payload = getTodoPayload(ERequestCommand.ADD, newTodo)
     const requestResult = await syncTodoWithServ(payload)
-    if (requestResult === ERequestStatus.SUCCESS) newTodo.content = ''
+    if (requestResult === ERequestStatus.SUCCESS) {
+      newTodo.content = ''
+      await getUncompletedTodos()
+    }
   }
 
   isPendingOfTodoAdding.value = false

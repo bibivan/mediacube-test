@@ -1,19 +1,21 @@
-import { computed, reactive, type WritableComputedRef } from 'vue'
+import { computed, reactive } from 'vue'
 import { defineStore } from 'pinia'
+import { getTodoStatus } from '~/utils'
+import { isCompletedTodo, isUncompletedTodo } from '~/utils/typegurads/todos'
 import {
   ERequestStatus,
   ERequestCommand,
+  ETodoStatus,
+  type TNullable,
   type IGetResponse,
   type IPostRequestPayload,
-  type ITodo,
-  type ITodosStoreState,
   type IPostResponse,
-  type ICompletedTodoRaw,
-  type TNullable,
+  type ITodosStoreState,
   type IUncompletedTodo,
-  type ICompletedTodo
+  type ICompletedTodoRaw,
+  type ICompletedTodo,
+  type ITodo
 } from '~/types'
-import { isCompletedTodo, isUncompletedTodo } from '~/utils/typegurads/todos'
 
 export const useTodosStore = defineStore('todos_store', () => {
   // Data
@@ -43,21 +45,55 @@ export const useTodosStore = defineStore('todos_store', () => {
         if (isCompletedTodo(todo)) completedTodos.push(todo)
       })
 
-      todosState.data.uncompleted = uncompletedTodos
-      todosState.data.completed = completedTodos
+      todosState.data.uncompleted = uncompletedTodos.length ? uncompletedTodos : null
+      todosState.data.completed = completedTodos.length ? completedTodos : null
     }
   })
 
+  // mutations
   const updateTodo = (todo: ITodo) => {
-    const todoIndex = allTodos.value?.findIndex((item: ITodo) => item.id === todo.id)
+    const todosType: ETodoStatus = getTodoStatus(todo.checked)
 
-    if (todoIndex !== -1 && todoIndex !== undefined && allTodos.value) {
-      allTodos.value[todoIndex] = todo
+    const currentTodos =
+      todosType === ETodoStatus.COMPLETED ? todosState.data.completed : todosState.data.uncompleted
+
+    if (currentTodos) {
+      const updatedTodos = currentTodos.map((item: ITodo) => {
+        return item.id === todo.id ? todo : item
+      })
+
+      if (todosType === ETodoStatus.COMPLETED) {
+        todosState.data.completed = updatedTodos as ICompletedTodo[]
+      } else {
+        todosState.data.uncompleted = updatedTodos as IUncompletedTodo[]
+      }
     }
   }
 
+  const moveByStatus = (todo: ITodo) => {
+    const prevTodoStatus: ETodoStatus = getTodoStatus(!todo.checked)
+
+    todosState.data[prevTodoStatus]?.filter((item: ITodo) => item.id !== todo.id)
+
+    if (isCompletedTodo(todo)) todosState.data[ETodoStatus.COMPLETED]?.push(todo)
+    if (isUncompletedTodo(todo)) todosState.data[ETodoStatus.UNCOMPLETED]?.push(todo)
+  }
+
   const deleteTodo = (todo: ITodo) => {
-    return allTodos.value?.filter((item: ITodo) => item.id !== todo.id)
+    const todosType: ETodoStatus = getTodoStatus(todo.checked)
+
+    const filterTodos = <T extends ITodo>(
+      todos: TNullable<T[]>,
+      todoId: string
+    ): TNullable<T[]> => {
+      return todos?.filter((item: T) => item.id !== todoId) || null
+    }
+
+    if (todosType === ETodoStatus.COMPLETED) {
+      todosState.data.completed = filterTodos(todosState.data.completed, todo.id)
+    } else {
+      todosState.data.uncompleted = filterTodos(todosState.data.uncompleted, todo.id)
+    }
   }
 
   // actions
@@ -109,15 +145,16 @@ export const useTodosStore = defineStore('todos_store', () => {
         body: JSON.stringify(payload)
       })
 
-      return checkPostResponse(data, 'Дело успешно добавлено')
+      return checkPostResponse(data, 'Данные успешно обновлены')
     } catch (e) {
-      return handleRequestError(e, 'Произошла ошибка при добавлении дела')
+      return handleRequestError(e, 'Что-то пошло не так...')
     }
   }
 
   return {
     todosState,
     allTodos,
+    moveByStatus,
     updateTodo,
     deleteTodo,
     getAllTodos,

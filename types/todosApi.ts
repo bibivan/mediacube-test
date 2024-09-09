@@ -56,6 +56,7 @@ export interface IPostRequestPayload<T extends ERequestCommand> {
     {
       type: ERequestCommand
       uuid: string
+      temp_id?: string
       args: T extends ERequestCommand.ADD
         ? IAddRequestArgs
         : T extends ERequestCommand.COMPLETE

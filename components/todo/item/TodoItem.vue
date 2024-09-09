@@ -20,7 +20,7 @@ const proxyTodo = computed({
   set: (value) => emit('onUpdateTodo', value)
 })
 
-const { deleteTodo, syncTodoWithServ } = useTodosStore()
+const { deleteTodo, moveByStatus, syncTodoWithServ } = useTodosStore()
 const state = reactive<ITodoItemState>({
   todoTitle: props.data.content,
   isEditing: false,
@@ -74,7 +74,10 @@ const handleChangeTodoStatus = async () => {
   }
 
   const requestStatus = await sendRequest(payload)
-  if (requestStatus !== ERequestStatus.SUCCESS) proxyTodo.value.checked = !proxyTodo.value.checked
+  if (requestStatus !== ERequestStatus.SUCCESS) {
+    proxyTodo.value.checked = !proxyTodo.value.checked
+    moveByStatus(proxyTodo.value)
+  }
 }
 
 const handleDeleteTodo = async () => {
@@ -84,7 +87,10 @@ const handleDeleteTodo = async () => {
 
   const requestStatus = await sendRequest(payload)
 
-  if (requestStatus === ERequestStatus.SUCCESS) deleteTodo(proxyTodo.value)
+  if (requestStatus === ERequestStatus.SUCCESS) {
+    console.log('here')
+    deleteTodo(proxyTodo.value)
+  }
 }
 </script>
 
