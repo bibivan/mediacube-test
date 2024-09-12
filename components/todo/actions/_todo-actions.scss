@@ -3,14 +3,19 @@
 
   width: 100%;
 
+  &_events-none {
+    pointer-events: none;
+  }
+
   &__action {
-    padding: 8px 12px;
+    padding: 8px 11px;
     font-family: $font-base;
     border-radius: $border-radius-md;
     font-size: 13px;
     font-weight: 600;
     line-height: 16px;
     text-align: left;
+    white-space: nowrap;
 
     &_hidden {
       visibility: collapse;

@@ -11,23 +11,17 @@ const props = defineProps<{
   data: ITodo
 }>()
 
-const emit = defineEmits<{
-  onUpdateTodo: [ITodo]
-}>()
-
-const proxyTodo = computed({
-  get: () => props.data,
-  set: (value) => emit('onUpdateTodo', value)
-})
-
-const { deleteTodo, moveByStatus, syncTodoWithServ } = useTodosStore()
+const { syncTodoWithServ } = useTodosStore()
 const state = reactive<ITodoItemState>({
   todoTitle: props.data.content,
+  isChecked: props.data.checked,
   isEditing: false,
   isLoading: false
 })
 
-const sendRequest = async (payload: IPostRequestPayload<ERequestCommand>) => {
+const sendRequest = async (
+  payload: IPostRequestPayload<ERequestCommand>
+): Promise<ERequestStatus> => {
   if (payload) {
     state.isLoading = true
     const status = await syncTodoWithServ(payload)
@@ -37,60 +31,52 @@ const sendRequest = async (payload: IPostRequestPayload<ERequestCommand>) => {
 
     return status
   }
+
+  return ERequestStatus.FAILED
 }
 
 const handleEditTodo = () => (state.isEditing = true)
 
 const handleResetEditing = () => {
-  state.todoTitle = proxyTodo.value.content
+  state.todoTitle = props.data.content
   state.isEditing = false
 }
 
 const handleUpdateTodo = async () => {
-  const oldTodoContent = proxyTodo.value.content
-  proxyTodo.value.content = state.todoTitle
-
   const payload = getTodoPayload(ERequestCommand.UPDATE, {
-    content: proxyTodo.value.content,
-    id: proxyTodo.value.id
+    content: state.todoTitle,
+    id: props.data.id
   })
 
-  const requestStatus = await sendRequest(payload)
-  if (requestStatus !== ERequestStatus.SUCCESS) proxyTodo.value.content = oldTodoContent
+  const result: ERequestStatus = await sendRequest(payload)
+  if (result === ERequestStatus.FAILED) state.todoTitle = props.data.content
 }
 
-const handleChangeTodoStatus = async () => {
+const handleChangeTodoStatus = async (event: Event) => {
   let payload
+  const isChecked = (event.target as HTMLInputElement).checked
 
-  if (!proxyTodo.value.checked && 'task_id' in proxyTodo.value) {
-    payload = getTodoPayload(ERequestCommand.UNCOMPLETE, {
-      id: proxyTodo.value.task_id
-    })
-  } else {
+  if (isChecked) {
     payload = getTodoPayload(ERequestCommand.COMPLETE, {
-      id: proxyTodo.value.id,
+      id: props.data.id,
       date_completed: new Date().toISOString()
     })
+  } else {
+    payload = getTodoPayload(ERequestCommand.UNCOMPLETE, {
+      id: getDeletedTodoId(props.data)
+    })
   }
 
-  const requestStatus = await sendRequest(payload)
-  if (requestStatus !== ERequestStatus.SUCCESS) {
-    proxyTodo.value.checked = !proxyTodo.value.checked
-    moveByStatus(proxyTodo.value)
-  }
+  const result: ERequestStatus = await sendRequest(payload)
+  if (result === ERequestStatus.FAILED) state.isChecked = !isChecked
 }
 
 const handleDeleteTodo = async () => {
   const payload = getTodoPayload(ERequestCommand.DELETE, {
-    id: proxyTodo.value.id
+    id: getDeletedTodoId(props.data)
   })
 
-  const requestStatus = await sendRequest(payload)
-
-  if (requestStatus === ERequestStatus.SUCCESS) {
-    console.log('here')
-    deleteTodo(proxyTodo.value)
-  }
+  await sendRequest(payload)
 }
 </script>
 
@@ -98,12 +84,12 @@ const handleDeleteTodo = async () => {
   <div
     v-if="data"
     class="todo-item"
-    :class="{ loading: state.isLoading }"
+    :class="{ loading: state.isLoading, 'todo-item_checked': data.checked }"
   >
     <button class="drag-handler todo-item__btn todo-item__btn_drag" />
     <BaseCheckbox
-      :id="'completed_checkbox_' + proxyTodo.id"
-      v-model="proxyTodo.checked"
+      :id="'completed_checkbox_' + data.id"
+      v-model="state.isChecked"
       class="todo-item__checkbox"
       :disabled="state.isEditing"
       theme="default"
@@ -114,7 +100,7 @@ const handleDeleteTodo = async () => {
       v-if="!state.isEditing"
       class="todo-item__title"
     >
-      {{ proxyTodo.content }}
+      {{ data.content }}
     </p>
     <input
       v-if="state.isEditing"
@@ -135,7 +121,7 @@ const handleDeleteTodo = async () => {
         @click="handleResetEditing"
       />
       <button
-        v-if="!state.isEditing"
+        v-if="!state.isEditing && !data.checked"
         class="todo-item__btn todo-item__btn_edit"
         @click="handleEditTodo"
       />

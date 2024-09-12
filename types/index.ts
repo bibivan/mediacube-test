@@ -1,4 +1,4 @@
 export * from './common'
 export * from './stores'
-export * from './todosApi'
+export * from './todosAPI'
 export * from './todosData'

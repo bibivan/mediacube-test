@@ -1,16 +1,15 @@
 .loading {
   position: relative;
-  z-index: $ui-index-0;
+  z-index: $ui-index-1;
 
   &::before {
     position: absolute;
     z-index: $ui-index-1;
     display: block;
     border-radius: $border-radius-sm;
-    background-color: $color-primary;
+    background-color: $color-disable;
     content: '';
     inset: 0;
-    opacity: 0.8;
   }
 
   &::after {

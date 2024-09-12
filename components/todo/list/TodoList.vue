@@ -1,10 +1,21 @@
 <script setup lang="ts">
 import { VueDraggableNext } from 'vue-draggable-next'
-import { EShownTodos } from '~/types'
+import { ERequestCommand, EShownTodos, type IReorderRequestArgs } from '~/types'
 
 const todosStore = useTodosStore()
-const { todosState, updateTodo: handleUpdateTodo } = todosStore
-const { allTodos } = storeToRefs(todosStore)
+const { todosState, syncTodoWithServ } = todosStore
+
+const handleReorderTodos = () => {
+  const args: IReorderRequestArgs = {
+    items:
+      todosState.data.uncompleted?.map((item, index) => ({
+        id: item.id,
+        child_order: index
+      })) || []
+  }
+  const payload = getTodoPayload(ERequestCommand.REORDER, args)
+  syncTodoWithServ(payload)
+}
 
 await todosStore.getAllTodos()
 </script>
@@ -15,57 +26,38 @@ await todosStore.getAllTodos()
       v-if="todosState.loading"
       class="todo-list__loading loading"
     />
-    <template v-else-if="todosState.shownTodos === EShownTodos.ALL">
-      <PerfectScrollbar>
-        <VueDraggableNext
-          v-if="Array.isArray(allTodos)"
-          v-model="allTodos"
-          handle=".drag-handler"
-        >
-          <TodoItem
-            v-for="todo in allTodos"
-            :key="'all-todos' + todo.id"
-            class="todo-list__item"
-            :data="todo"
-            @on-update-todo="handleUpdateTodo"
-          />
-        </VueDraggableNext>
-      </PerfectScrollbar>
-    </template>
-    <template v-else-if="todosState.shownTodos === EShownTodos.COMPLETED">
-      <PerfectScrollbar>
-        <VueDraggableNext
-          v-if="Array.isArray(todosState.data.completed)"
-          v-model="todosState.data.completed"
-          handle=".drag-handler"
-        >
-          <TodoItem
-            v-for="todo in todosState.data.completed"
-            :key="'completed-todos' + todo.id"
-            class="todo-list__item"
-            :data="todo"
-            @on-update-todo="handleUpdateTodo"
-          />
-        </VueDraggableNext>
-      </PerfectScrollbar>
-    </template>
-    <template v-else-if="todosState.shownTodos === EShownTodos.UNCOMPLETED">
-      <PerfectScrollbar>
-        <VueDraggableNext
-          v-if="Array.isArray(todosState.data.uncompleted)"
-          v-model="todosState.data.uncompleted"
-          handle=".drag-handler"
-        >
-          <TodoItem
-            v-for="todo in todosState.data.uncompleted"
-            :key="'uncompleted-todos' + todo.id"
-            class="todo-list__item"
-            :data="todo"
-            @on-update-todo="handleUpdateTodo"
-          />
-        </VueDraggableNext>
-      </PerfectScrollbar>
-    </template>
+    <PerfectScrollbar>
+      <VueDraggableNext
+        v-if="
+          todosState.data.uncompleted?.length && todosState.shownTodos !== EShownTodos.COMPLETED
+        "
+        v-model="todosState.data.uncompleted"
+        class="todo-list__wrapper"
+        handle=".drag-handler"
+        @change="handleReorderTodos"
+      >
+        <TodoItem
+          v-for="todo in todosState.data.uncompleted"
+          :key="'uncompleted-todos' + todo.id"
+          class="todo-list__item"
+          :data="todo"
+        />
+      </VueDraggableNext>
+      <VueDraggableNext
+        v-if="
+          todosState.data.completed?.length && todosState.shownTodos !== EShownTodos.UNCOMPLETED
+        "
+        class="todo-list__wrapper"
+        handle=".drag-handler"
+      >
+        <TodoItem
+          v-for="todo in todosState.data.completed"
+          :key="'completed-todos' + todo.id"
+          class="todo-list__item"
+          :data="todo"
+        />
+      </VueDraggableNext>
+    </PerfectScrollbar>
   </div>
 </template>
 

@@ -6,11 +6,6 @@ export enum EShownTodos {
   COMPLETED
 }
 
-export enum ETodoStatus {
-  COMPLETED = 'completed',
-  UNCOMPLETED = 'uncompleted'
-}
-
 export interface ITodosStoreState {
   data: {
     completed: TNullable<ICompletedTodo[]>
@@ -19,49 +14,21 @@ export interface ITodosStoreState {
   shownTodos: EShownTodos
   loading: boolean
   error: unknown
+  syncToken: string
 }
 
 export interface IUncompletedTodo {
-  added_at: string
-  added_by_uid: string
-  assigned_by_uid: TNullable<string>
+  content: string
   checked: boolean
   child_order: number
-  collapsed: boolean
-  completed_at: TNullable<string>
-  content: string
-  day_order: number
-  deadline: TNullable<string>
-  description: string
-  due: TNullable<string>
-  duration: TNullable<string>
   id: string
-  is_deleted: boolean
-  labels: []
-  parent_id: TNullable<string>
-  priority: number
-  project_id: string
-  responsible_uid: TNullable<string>
-  section_id: TNullable<string>
-  sync_id: TNullable<string>
-  updated_at: string
-  user_id: string
-  v2_id: string
-  v2_parent_id: TNullable<string>
-  v2_project_id: string
-  v2_section_id: TNullable<string>
 }
 
 export interface ICompletedTodoRaw {
   content: string
-  meta_data: TNullable<any>
-  user_id: string
-  task_id: string
-  note_count: number
-  project_id: string
-  section_id: string
-  completed_at: string
+  checked: boolean
   id: string
+  task_id: string
 }
 
 export interface ICompletedTodo extends ICompletedTodoRaw {
@@ -74,4 +41,5 @@ export interface ITodoItemState {
   todoTitle: string
   isEditing: boolean
   isLoading: boolean
+  isChecked: boolean
 }

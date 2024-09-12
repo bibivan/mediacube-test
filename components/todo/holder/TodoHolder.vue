@@ -14,7 +14,6 @@
         <TodoAdd class="todo-holder__new-todo" />
         <TodoList class="todo-holder__list" />
         <TodoActions class="todo-holder__actions" />
-        <!--        <TodoProgressInfo class="todo-holder__progress" />-->
       </div>
     </div>
   </section>
