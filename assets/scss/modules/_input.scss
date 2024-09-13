@@ -9,7 +9,18 @@
   line-height: 16px;
   text-align: left;
 
-  ::placeholder {
+  &::placeholder {
     color: #8f99a3;
+  }
+}
+
+.dark {
+  .input {
+    background-color: $color-bg-section-dark;
+    color: $color-text-light;
+
+    &::placeholder {
+      color: $color-text-light;
+    }
   }
 }

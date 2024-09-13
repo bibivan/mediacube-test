@@ -1,0 +1,87 @@
+@use 'sass:color';
+
+.progress-bar {
+  padding: 16px;
+  width: 100%;
+  max-width: 190px;
+  height: 85px;
+  border-radius: $border-radius-md;
+  background-color: color.adjust($color-text, $alpha: -0.95);
+
+  @include xl-mobile {
+    max-width: none;
+  }
+
+  &__text {
+    margin-bottom: 12px;
+  }
+
+  &__todos-count {
+    margin-bottom: 4px;
+    font-family: $font-base;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 16px;
+    text-align: left;
+    opacity: 0.5;
+  }
+
+  &__todos-status {
+    text-transform: capitalize;
+    font-family: $font-base;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 16.94px;
+    letter-spacing: -0.02em;
+    text-align: left;
+  }
+}
+
+.progress {
+  $this: &;
+  position: relative;
+
+  width: 100%;
+  height: 4px;
+  border-radius: $border-radius-md;
+  background-color: color.adjust($color-text, $alpha: -0.93);
+  overflow: hidden;
+
+  &__line {
+    position: absolute;
+    height: 100%;
+    display: block;
+    left: 0;
+    top: 0;
+    transition: width 0.3s ease-in-out;
+  }
+
+  &_color_pink {
+    #{$this}__line {
+      background-color: #ef5da8;
+    }
+  }
+
+  &_color_violet {
+    #{$this}__line {
+      background-color: #5d5fef;
+    }
+  }
+}
+
+:global(.dark .progress-bar) {
+  background-color: color.adjust($color-bg-section, $alpha: -0.9);
+}
+
+:global(.dark .progress) {
+  background-color: $color-bg-section;
+}
+
+:global(.dark .progress-bar__todos-count) {
+  color: $color-text-light;
+  opacity: 0.7;
+}
+
+:global(.dark .progress-bar__todos-status) {
+  color: $color-text-light;
+}

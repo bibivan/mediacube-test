@@ -1,0 +1,19 @@
+.todos-cleared {
+  display: flex;
+  font-family: $font-base;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 16px;
+  text-align: left;
+  color: #8f99a3;
+
+  &::before {
+    content: '';
+    display: block;
+    width: 18px;
+    height: 18px;
+    background-image: url('/public/img/complete.svg');
+    background-size: contain;
+    margin-right: 11px;
+  }
+}

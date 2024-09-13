@@ -1,3 +1,4 @@
 <template>
+  <DarkModeSwitcher />
   <slot />
 </template>

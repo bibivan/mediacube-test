@@ -1,4 +1,4 @@
-.todo-list {
+.todos-list {
   position: relative;
   width: 100%;
 
@@ -24,9 +24,19 @@
 
   .ps {
     @include flex-column-stretch;
-    margin-left: -24px;
+    margin: 0 0 0 -24px;
     gap: 18px;
     width: calc(100% + #{$custom-scrollbar-indent} + 24px);
-    height: 200px;
+    height: 100px;
+
+    @include hover-none {
+      width: calc(100% + #{$custom-scrollbar-indent});
+      margin: 0;
+    }
   }
+}
+
+:global(.dark .todos-list__loading::before) {
+  background-color: $color-bg-section-dark;
+  border: 1px solid $color-bg-section;
 }

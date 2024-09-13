@@ -1,0 +1,42 @@
+.todos-add-new {
+  display: flex;
+  width: 100%;
+
+  @include xl-mobile {
+    @include flex-column-stretch;
+    gap: 10px;
+  }
+
+  &__input {
+    width: 100%;
+  }
+
+  &__btn {
+    display: none;
+    margin-left: 16px;
+    width: 77px;
+
+    @include xl-mobile {
+      @include flex-center;
+      visibility: collapse;
+      text-align: center;
+      margin: 0;
+      width: 100%;
+      gap: 10px;
+    }
+
+    &_shown {
+      @include flex-center;
+
+      @include xl-mobile {
+        visibility: visible;
+      }
+    }
+  }
+
+  &__spinner {
+    display: block;
+    width: 17px;
+    height: 17px;
+  }
+}

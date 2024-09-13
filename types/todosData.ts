@@ -6,6 +6,11 @@ export enum EShownTodos {
   COMPLETED
 }
 
+export enum ETodosStatus {
+  COMPLETED = 'completed',
+  UNCOMPLETED = 'uncompleted'
+}
+
 export interface ITodosStoreState {
   data: {
     completed: TNullable<ICompletedTodo[]>

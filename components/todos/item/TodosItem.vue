@@ -6,6 +6,7 @@ import {
   type ITodo,
   type ITodoItemState
 } from '~/types'
+import SvgTrash from '~/components/svg/SvgTrash.vue'
 
 const props = defineProps<{
   data: ITodo
@@ -83,14 +84,16 @@ const handleDeleteTodo = async () => {
 <template>
   <div
     v-if="data"
-    class="todo-item"
-    :class="{ loading: state.isLoading, 'todo-item_checked': data.checked }"
+    class="todos-item"
+    :class="{ loading: state.isLoading, 'todos-item_checked': data.checked }"
   >
-    <button class="drag-handler todo-item__btn todo-item__btn_drag" />
+    <button class="drag-handler todos-item__btn todos-item__btn_drag">
+      <SvgDragHandler />
+    </button>
     <BaseCheckbox
       :id="'completed_checkbox_' + data.id"
       v-model="state.isChecked"
-      class="todo-item__checkbox"
+      class="todos-item__checkbox"
       :disabled="state.isEditing"
       theme="default"
       type="checkbox"
@@ -98,41 +101,49 @@ const handleDeleteTodo = async () => {
     />
     <p
       v-if="!state.isEditing"
-      class="todo-item__title"
+      class="todos-item__title"
     >
       {{ data.content }}
     </p>
     <input
       v-if="state.isEditing"
       v-model="state.todoTitle"
-      class="todo-item__input input"
+      class="todos-item__input input"
       type="text"
     />
-    <div class="todo-item__actions">
+    <div class="todos-item__actions">
       <button
         v-if="state.isEditing"
-        class="todo-item__btn todo-item__btn_save"
+        class="todos-item__btn todos-item__btn_save"
         :disabled="!state.todoTitle"
         @click="handleUpdateTodo"
-      />
+      >
+        <SvgCheckmark />
+      </button>
       <button
         v-if="state.isEditing"
-        class="todo-item__btn todo-item__btn_reset"
+        class="todos-item__btn todos-item__btn_reset"
         @click="handleResetEditing"
-      />
+      >
+        <SvgCross />
+      </button>
       <button
         v-if="!state.isEditing && !data.checked"
-        class="todo-item__btn todo-item__btn_edit"
+        class="todos-item__btn todos-item__btn_edit"
         @click="handleEditTodo"
-      />
+      >
+        <SvgPencil />
+      </button>
       <button
-        class="todo-item__btn todo-item__btn_delete"
+        class="todos-item__btn todos-item__btn_delete"
         @click="handleDeleteTodo"
-      />
+      >
+        <SvgTrash />
+      </button>
     </div>
   </div>
 </template>
 
 <style scoped lang="scss">
-@import 'todo-item';
+@import 'todos-item';
 </style>

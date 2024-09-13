@@ -16,15 +16,13 @@ const handleReorderTodos = () => {
   const payload = getTodoPayload(ERequestCommand.REORDER, args)
   syncTodoWithServ(payload)
 }
-
-await todosStore.getAllTodos()
 </script>
 
 <template>
-  <div class="todo-list">
+  <div class="todos-list">
     <div
       v-if="todosState.loading"
-      class="todo-list__loading loading"
+      class="todos-list__loading loading"
     />
     <PerfectScrollbar>
       <VueDraggableNext
@@ -32,14 +30,14 @@ await todosStore.getAllTodos()
           todosState.data.uncompleted?.length && todosState.shownTodos !== EShownTodos.COMPLETED
         "
         v-model="todosState.data.uncompleted"
-        class="todo-list__wrapper"
+        class="todos-list__wrapper"
         handle=".drag-handler"
         @change="handleReorderTodos"
       >
-        <TodoItem
+        <TodosItem
           v-for="todo in todosState.data.uncompleted"
           :key="'uncompleted-todos' + todo.id"
-          class="todo-list__item"
+          class="todos-list__item"
           :data="todo"
         />
       </VueDraggableNext>
@@ -47,13 +45,13 @@ await todosStore.getAllTodos()
         v-if="
           todosState.data.completed?.length && todosState.shownTodos !== EShownTodos.UNCOMPLETED
         "
-        class="todo-list__wrapper"
+        class="todos-list__wrapper"
         handle=".drag-handler"
       >
-        <TodoItem
+        <TodosItem
           v-for="todo in todosState.data.completed"
           :key="'completed-todos' + todo.id"
-          class="todo-list__item"
+          class="todos-list__item"
           :data="todo"
         />
       </VueDraggableNext>
@@ -62,5 +60,5 @@ await todosStore.getAllTodos()
 </template>
 
 <style scoped lang="scss">
-@import 'todo-list';
+@import 'todos-list';
 </style>

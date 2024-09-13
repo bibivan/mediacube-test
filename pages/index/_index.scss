@@ -1,0 +1,88 @@
+.todos-holder {
+  width: 100%;
+  max-width: 730px;
+  padding: 32px 0;
+  border-radius: $border-radius-lg;
+  background-color: $color-bg-section;
+
+  @include xl-mobile {
+    padding: 20px 0;
+  }
+
+  &__container {
+    width: 100%;
+    max-width: 430px;
+    padding: 0 10px;
+    margin: 0 auto;
+
+    @include xl-mobile {
+      padding: 0 15px;
+    }
+  }
+
+  &__content {
+    @include flex-column-center;
+
+    min-height: 720px;
+
+    @include xl-mobile {
+      min-height: 500px;
+    }
+  }
+
+  &__img {
+    display: block;
+    width: 180px;
+    height: 180px;
+    margin-bottom: 48px;
+
+    @include xl-mobile {
+      width: 90px;
+      height: 90px;
+      margin-bottom: 24px;
+    }
+  }
+
+  &__title {
+    margin-bottom: 52px;
+    font-family: $font-base;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 29.05px;
+    text-align: left;
+
+    @include xl-mobile {
+      margin-bottom: 28px;
+    }
+  }
+
+  &__new-todo {
+    margin-bottom: 40px;
+
+    @include xl-mobile {
+      margin-bottom: 24px;
+    }
+  }
+
+  &__list,
+  &__progress {
+    margin-bottom: 32px;
+
+    @include xl-mobile {
+      margin-bottom: 20px;
+    }
+  }
+
+  &__no-todos {
+    margin-top: auto;
+  }
+}
+
+:global(.dark .todos-holder) {
+  background: $color-bg-section-dark;
+}
+
+:global(.dark .todos-holder__title) {
+  color: $color-text-light;
+}

@@ -73,12 +73,20 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+.main {
+  @include flex-center;
+
+  min-height: 100vh;
+  padding: 10px;
+  background: $color-bg-html;
+}
+
 .section {
   width: 100%;
-  padding: $section-indent-portable;
+  padding: $section-indent;
 
-  @include desktop {
-    padding: $section-indent;
+  @include portable {
+    padding: $section-indent-portable;
   }
 }
 
@@ -87,4 +95,19 @@ body {
   max-width: 1360px;
   padding: $container-indent;
   margin: 0 auto;
+}
+
+.ps .ps__rail-x:hover,
+.ps .ps__rail-y:hover,
+.ps .ps__rail-x:focus,
+.ps .ps__rail-y:focus,
+.ps .ps__rail-x.ps--clicking,
+.ps .ps__rail-y.ps--clicking {
+  background-color: transparent !important;
+}
+
+.dark {
+  .main {
+    background: $color-bg-html-dark;
+  }
 }

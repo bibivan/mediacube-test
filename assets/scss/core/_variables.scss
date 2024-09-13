@@ -9,8 +9,8 @@ $color-primary: #94bdfc;
 $color-primary-light: #a1aefc;
 $color-primary-dark: #8ec5fc;
 $color-disable: #f4f4f4;
-$color-danger: #e95353;
-$color-danger-dark: #ca3737;
+$color-danger: #ec3535;
+$color-danger-dark: #ea1414;
 $color-danger-light: #fee;
 $color-warning: #fac311;
 
@@ -35,8 +35,26 @@ $color-bg-html: linear-gradient(
     #8eddf5 80.73%,
     #8fd3f4 100%
   );
+$color-bg-html-dark: linear-gradient(
+    303.79deg,
+    #2b0d45 -53.74%,
+    #3a1457 -4.64%,
+    #4a1c6a 40.96%,
+    #5a247d 83.05%,
+    #6c3290 127.47%,
+    #7b3ca3 170.73%
+  ),
+  linear-gradient(
+    0deg,
+    #0d443a 0%,
+    #11504b 21.87%,
+    #155c5e 42.19%,
+    #1a6871 60.94%,
+    #1e7484 80.73%,
+    #217f97 100%
+  );
 $color-bg-section: #fff;
-$color-bg-section-dark: #000;
+$color-bg-section-dark: #444d75;
 $color-bg-btn: #2578f4;
 $color-text: #202427;
 $color-text-light: #fff;

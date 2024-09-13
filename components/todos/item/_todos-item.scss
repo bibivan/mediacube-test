@@ -1,4 +1,4 @@
-.todo-item {
+.todos-item {
   $this: &;
 
   @include flex-items-center;
@@ -24,12 +24,11 @@
     font-weight: 400;
     line-height: 16px;
     text-align: left;
-    background-color: white;
   }
 
   &__input {
     margin-right: 20px;
-    height: 18px;
+    height: 16px;
     width: 100%;
     padding: 0 2px;
     border-radius: $border-radius-sm;
@@ -48,38 +47,28 @@
     height: 16px;
     transition: opacity 0.2s ease-in-out;
     cursor: pointer;
-    background-position: center;
-    background-size: contain;
-    background-repeat: no-repeat;
     opacity: 0.65;
 
     &_drag {
       margin-right: 8px;
       cursor: grab;
       opacity: 0;
-      background-image: url('public/img/drag-handler.svg');
-      background-position: center -1px;
-    }
 
-    &_save {
-      background-image: url('public/img/checkmark.svg');
-    }
+      @include hover-none {
+        opacity: 0.5;
+      }
 
-    &_reset {
-      background-image: url('public/img/cross.svg');
-    }
-
-    &_edit {
-      background-image: url('public/img/pencil.svg');
+      @include hover {
+        &:hover {
+          opacity: 0.5;
+        }
+      }
     }
 
     &_delete {
+      opacity: 0.8;
       cursor: pointer;
-      opacity: 0.7;
-      background-image: url('public/img/trash.svg');
-      background-position: center;
-      background-size: contain;
-      background-repeat: no-repeat;
+      color: $color-danger;
     }
 
     @include hover {
@@ -94,10 +83,39 @@
       opacity: 0.5;
     }
   }
+}
 
-  @include hover {
-    &:hover &__btn_drag {
-      opacity: 0.5;
-    }
+:global(.dark .todos-item__title) {
+  color: $color-text-light;
+}
+
+:global(.dark .todos-item__btn) {
+  color: $color-text-light;
+}
+
+:global(.dark .todos-item__btn_drag) {
+  @include hover-none {
+    opacity: 1;
   }
+}
+
+:global(.dark .todos-item__btn_delete) {
+  opacity: 1;
+  color: $color-danger;
+}
+
+:global(.dark .todos-item.loading) {
+  width: calc(100% - #{$custom-scrollbar-indent} - 24px);
+  margin-left: 24px;
+  overflow: hidden;
+
+  @include hover-none {
+    width: calc(100% - #{$custom-scrollbar-indent});
+    margin-left: 0;
+  }
+}
+
+:global(.dark .todos-item.loading::before) {
+  background-color: $color-bg-section-dark;
+  border: 1px solid $color-bg-section;
 }

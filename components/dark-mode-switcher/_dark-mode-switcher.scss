@@ -1,0 +1,14 @@
+.dark-mode-switcher {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  background-size: 80%;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  background-image: url('/public/img/sun.svg');
+}
+
+:global(.dark .dark-mode-switcher) {
+  background-image: url('/public/img/moon.svg');
+}

@@ -22,29 +22,29 @@ const handleAddTodo = async () => {
 
 <template>
   <form
-    class="todo-add"
+    class="todos-add-new"
     action="/public"
     @submit.prevent="handleAddTodo"
   >
     <input
       v-model="newTodo.content"
-      class="todo-add__input input"
+      class="todos-add-new__input input"
       placeholder="Add new todo..."
       type="text"
     />
     <button
-      v-show="newTodo.content"
-      class="todo-add__btn btn"
+      class="todos-add-new__btn btn"
+      :class="{ 'todos-add-new__btn_shown': newTodo.content }"
     >
       <template v-if="!isPendingOfTodoAdding">Send</template>
       <BaseSpinner
         v-if="isPendingOfTodoAdding"
-        class="todo-add__spinner"
+        class="todos-add-new__spinner"
       />
     </button>
   </form>
 </template>
 
 <style scoped lang="scss">
-@import 'todo-add';
+@import 'todos-add-new';
 </style>

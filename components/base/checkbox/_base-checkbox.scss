@@ -69,3 +69,12 @@
     }
   }
 }
+
+.dark {
+  /* стили для радиокнопки, находящейся в состоянии disabled */
+  .base-checkbox__input:disabled + .base-checkbox__label {
+    &::before {
+      background-color: transparent;
+    }
+  }
+}

@@ -1,7 +1,10 @@
-.todo-actions {
+.todos-actions {
   @include flex-center;
-
   width: 100%;
+
+  @include xl-mobile {
+    flex-wrap: wrap;
+  }
 
   &_events-none {
     pointer-events: none;
@@ -19,6 +22,11 @@
 
     &_hidden {
       visibility: collapse;
+
+      @include xl-mobile {
+        visibility: visible;
+        display: none;
+      }
     }
 
     &_active {
@@ -26,32 +34,26 @@
       color: $color-text-light;
     }
 
-    &_clear {
-      margin-left: auto;
-    }
-
     &_check {
       margin-right: auto;
+
+      @include xl-mobile {
+        margin-right: 0;
+        order: 4;
+      }
+    }
+
+    &_clear {
+      margin-left: auto;
+
+      @include xl-mobile {
+        margin-left: 0;
+        order: 5;
+      }
     }
   }
 }
 
-.no-todos-message {
-  display: flex;
-  font-family: $font-base;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 16px;
-  text-align: left;
-  color: #8f99a3;
-
-  &::before {
-    content: '';
-    display: block;
-    width: 18px;
-    height: 18px;
-    background-image: url('/public/img/complete.svg');
-    background-size: contain;
-    margin-right: 11px;
-  }
+:global(.dark .todos-actions__action) {
+  color: $color-text-light;
 }
